@@ -1,5 +1,5 @@
-import { UserDto } from "../services/dto/userinput.dto";
+import { UserDto } from '../services/dto/userinput.dto';
 
-export interface IUserEntity extends UserDto  {
+export interface IUserEntity extends UserDto {
     id: string;
 }
