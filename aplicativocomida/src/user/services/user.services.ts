@@ -1,8 +1,7 @@
-import { IUserEntity } from './entities/user.entity';
-import { UserDto } from './services/dto/userinput.dto';
+import { IUserEntity } from '../entities/user.entity';
+import { UserDto } from './dto/userinput.dto';
 import { randomUUID } from 'node:crypto';
-import { PartialUserDto } from './services/dto/partialuserinput.dto';
-import { userInfo } from 'node:os';
+import { PartialUserDto } from './dto/partialuserinput.dto';
 
 export class UserService {
     private users: IUserEntity[] = [];
@@ -21,5 +20,22 @@ export class UserService {
         });
         const updatedUser = this.users.find((user) => user.id === userData.id);
         return updatedUser;
+    }
+
+    async getAllUsers(): Promise<IUserEntity[]> {
+        return this.users;
+    }
+
+    async deleteUserById(userId: string): Promise<boolean> {
+        const existUser = this.users.find((user) => user.id === userId);
+        if (!existUser) {
+            return false;
+        }
+        this.users.map((user, index) => {
+            if (user.id === userId) {
+                this.users.splice(index, 1);
+            }
+        });
+        return true
     }
 }
