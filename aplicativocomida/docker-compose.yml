@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+    database:
+        image: bitnami/postgresql
+        ports:
+            - '5431:5432'
+        container_name: backend-aplicativocomida
+        restart: always
+        volumes:
+            - aplicativocomida-disk:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: backend-aplicativocomida
+volumes:
+    aplicativocomida-disk:

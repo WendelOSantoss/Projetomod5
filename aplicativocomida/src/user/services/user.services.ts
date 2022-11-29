@@ -36,17 +36,14 @@ export class UserService {
                 this.users.splice(index, 1);
             }
         });
-        return true
+        return true;
     }
 
-    async getUserById(userId: string): Promise<IUserEntity>{
+    async getUserById(userId: string): Promise<IUserEntity> {
         const existUser = this.users.find((user) => user.id === userId);
         if (!existUser) {
-            throw new Error ("User not found");
+            throw new Error('User not found');
         }
         return existUser;
-
     }
-
-
 }
