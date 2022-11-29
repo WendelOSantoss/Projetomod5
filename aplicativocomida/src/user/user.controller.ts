@@ -20,7 +20,7 @@ export class UserController {
     constructor(private readonly service: UserService) {}
 
     @Get()
-    async getAllUser(): Promise<IUserEntity> {
+    async getAllUser(): Promise<IUserEntity[]> {
         return await this.service.getAllUsers();
     }
 

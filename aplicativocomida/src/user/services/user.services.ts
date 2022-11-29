@@ -20,7 +20,7 @@ export class UserService {
         return updatedUser;
     }
 
-    async getAllUsers(): Promise<IUserEntity> {
+    async getAllUsers(): Promise<IUserEntity[]> {
         return await this.userRepository.findAllUsers();
     }
 
