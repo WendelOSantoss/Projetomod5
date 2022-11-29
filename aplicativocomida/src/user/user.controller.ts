@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
     Body,
     Controller,
     Delete,
@@ -6,18 +7,20 @@ import {
     Param,
     Patch,
     Post,
+    Res,
 } from '@nestjs/common';
 import { IUserEntity } from './entities/user.entity';
 import { PartialUserDto } from './services/dto/partialuserinput.dto';
 import { UserDto } from './services/dto/userinput.dto';
 import { UserService } from './services/user.services';
+import { Response } from 'express';
 
-@Controller()
+@Controller('user')
 export class UserController {
     constructor(private readonly service: UserService) {}
 
     @Get()
-    async getAllUser(): Promise<IUserEntity[]> {
+    async getAllUser(): Promise<IUserEntity> {
         return await this.service.getAllUsers();
     }
 
@@ -32,18 +35,22 @@ export class UserController {
 
     @Post()
     async createUser(
-        @Body() { cpf, email, password, name, role }: UserDto
-    ): Promise<IUserEntity> {
+        @Body() { cpf, email, password, name, role }: UserDto,
+
+        @Res() response: Response
+    ) {
         try {
-            return await this.service.createUser({
+            const result = await this.service.createUser({
                 cpf,
                 email,
                 password,
                 name,
                 role,
             });
+            response.status(201).send(result);
         } catch (err) {
             console.log(err);
+            throw new BadRequestException(err.message);
         }
     }
 

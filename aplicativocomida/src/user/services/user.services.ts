@@ -5,10 +5,9 @@ import { PartialUserDto } from './dto/partialuserinput.dto';
 import { UserRepository } from '../user.repository';
 import { Injectable } from '@nestjs/common';
 
-
 @Injectable()
 export class UserService {
-    constructor(private readonly userRepository: UserRepository){}
+    constructor(private readonly userRepository: UserRepository) {}
 
     async createUser(user: UserDto): Promise<IUserEntity> {
         const userEntity = { ...user, id: randomUUID() };
@@ -26,23 +25,17 @@ export class UserService {
     }
 
     async deleteUserById(userId: string): Promise<boolean> {
-        try{
-            const existUser = this.userRepository.deleteUser(userId);
-            if{existUser} {
-                return true
-            }
-            else {
-                return false;
-            }
-        } catch(err){
+        try {
+            await this.userRepository.deleteUser(userId);
+            return true;
+        } catch (err) {
             console.log(err);
             return false;
         }
-        
     }
 
     async getUserById(userId: string): Promise<IUserEntity> {
-        const foundUser = await this.userRepository.findUserById(userId)   
+        const foundUser = await this.userRepository.findUserById(userId);
         return foundUser;
     }
 }
