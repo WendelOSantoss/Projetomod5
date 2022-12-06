@@ -14,6 +14,8 @@ import { PartialUserDto } from './services/dto/partialuserinput.dto';
 import { UserDto } from './services/dto/userinput.dto';
 import { UserService } from './services/user.services';
 import { Response } from 'express';
+import { Exception } from 'src/utils/exceptions/IExceptions';
+import { HandleException } from 'src/utils/exceptions/exceptionsHelper';
 
 @Controller('user')
 export class UserController {
@@ -49,8 +51,7 @@ export class UserController {
             });
             response.status(201).send(result);
         } catch (err) {
-            console.log(err);
-            throw new BadRequestException(err.message);
+            HandleException(err);
         }
     }
 

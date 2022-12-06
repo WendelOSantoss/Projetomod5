@@ -15,7 +15,7 @@ export class UserRepository {
         const updatedUser = await this.prisma.user.update({
             where: {
                 id: user.id,
-            },
+            },  
             data: user,
         });
         return updatedUser;
