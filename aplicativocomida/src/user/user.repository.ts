@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
 import { IUserEntity } from './entities/user.entity';
 import { PartialUserDto } from './services/dto/partialuserinput.dto';
+import { Exception } from 'src/utils/exceptions/exception';
+import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
 
 @Injectable()
 export class UserRepository {
@@ -13,38 +14,60 @@ export class UserRepository {
             const CreatedUser = await this.prisma.user.create({ data: user });
             return CreatedUser;
         } catch (err) {
-            throw {
-                message: "Erro ao criar email ou Cpf já cadastrados",
-                exception: Exceptions.DatabaseException,
-            };
+            throw new Exception(
+                Exceptions.DatabaseException,
+                'Erro ao criar email ou Cpf já cadastrados'
+            );
         }
     }
 
     async updateUser(user: PartialUserDto): Promise<IUserEntity> {
-        const updatedUser = await this.prisma.user.update({
-            where: {
-                id: user.id,
-            },
-            data: user,
-        });
-        return updatedUser;
+        try {
+            const updatedUser = await this.prisma.user.update({
+                where: {
+                    id: user.id,
+                },
+                data: user,
+            });
+            return updatedUser;
+        } catch (err) {
+            throw new Exception(
+                Exceptions.DatabaseException,
+                'Erro ao atualizar usuário'
+            );
+        }
     }
     async deleteUser(id: string): Promise<IUserEntity> {
-        const deletedUser = await this.prisma.user.delete({
-            where: { id: id },
-        });
-        return deletedUser;
+        try {
+            const deletedUser = await this.prisma.user.delete({
+                where: { id: id },
+            });
+            return deletedUser;
+        } catch (err) {
+            throw new Exception(
+                Exceptions.DatabaseException,
+                'Erro ao deletar, usuário não encontrado'
+            );
+        }
     }
 
     async findAllUsers(): Promise<IUserEntity[]> {
-        const allUsers = await this.prisma.user.findMany();
-        return allUsers;
+        try {
+            const allUsers = await this.prisma.user.findMany();
+            return allUsers;
+        } catch (err) {
+            throw new Exception(Exceptions.DatabaseException);
+        }
     }
 
     async findUserById(id: string): Promise<IUserEntity> {
-        const foundUser = await this.prisma.user.findUniqueOrThrow({
-            where: { id: id },
-        });
-        return foundUser;
+        try {
+            const foundUser = await this.prisma.user.findUniqueOrThrow({
+                where: { id: id },
+            });
+            return foundUser;
+        } catch (err) {
+            throw new Exception(Exceptions.DatabaseException);
+        }
     }
 }
