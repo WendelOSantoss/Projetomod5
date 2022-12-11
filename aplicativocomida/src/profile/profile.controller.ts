@@ -1,34 +1,65 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+} from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { HandleException } from 'src/utils/exceptions/exceptionsHelper';
 
+@ApiTags('profile')
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly profileService: ProfileService) {}
+    constructor(private readonly profileService: ProfileService) {}
 
-  @Post()
-  create(@Body() createProfileDto: CreateProfileDto) {
-    return this.profileService.create(createProfileDto);
-  }
+    @Post()
+    async create(@Body() createProfileDto: CreateProfileDto) {
+        try {
+            return this.profileService.create(createProfileDto);
+        } catch (err) {
+            HandleException(err);
+        }
+    }
 
-  @Get()
-  findAll() {
-    return this.profileService.findAll();
-  }
+    @Get()
+    findAll() {
+        try {
+            return this.profileService.findAll();
+        } catch (err) {
+            HandleException(err);
+        }
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.profileService.findOne(+id);
-  }
+    @Get('/find/:id')
+    async findOne(@Param('id') id: string) {
+        try {
+            return this.profileService.findOne(id);
+        } catch (err) {
+            HandleException(err);
+        }
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
-    return this.profileService.update(+id, updateProfileDto);
-  }
+    @Patch('/update')
+    async update(@Body() updateProfileDto: UpdateProfileDto) {
+        try {
+            return this.profileService.update(updateProfileDto);
+        } catch (err) {
+            HandleException(err);
+        }
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.profileService.remove(+id);
-  }
+    @Delete('delete/:id')
+    async remove(@Param('id') id: string): Promise<String> {
+        try {
+            return await this.profileService.remove(id);
+        } catch (err) {
+            HandleException(err);
+        }
+    }
 }

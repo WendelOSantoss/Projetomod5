@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
-import { IProfileEntity } from '../entities/profile.entity';
 
 export class CreateProfileDto {
     @ApiProperty()
@@ -16,7 +15,7 @@ export class CreateProfileDto {
     @IsString()
     adress: string;
     @ApiProperty()
-    restaurantId: IProfileEntity[];
+    restaurantId?: String[];
     @ApiProperty()
-    consumerId: IProfileEntity[];
+    consumerId?: String[];
 }

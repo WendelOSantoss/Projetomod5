@@ -1,27 +1,41 @@
 import { Injectable } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
+import { Exception } from 'src/utils/exceptions/exception';
+import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { IProfileEntity } from './entities/profile.entity';
+import { ProfileRepository } from './profile.repository';
 
 @Injectable()
 export class ProfileService {
-  
- async create(createProfileDto: CreateProfileDto) {
-    return 'This action adds a new profile';
-  }
+    constructor(private readonly profileRepository: ProfileRepository) {}
 
-  async findAll() {
-    return `This action returns all profile`;
-  }
+    async create(createProfileDto: CreateProfileDto): Promise<IProfileEntity> {
+        const id = randomUUID();
+        return await this.profileRepository.createProfile(createProfileDto, id);
+    }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} profile`;
-  }
+    async findAll(): Promise<IProfileEntity[]> {
+        return await this.profileRepository.findAllProfiles();
+    }
 
-   async update(id: number, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${id} profile`;
-  }
+    async findOne(id: string): Promise<IProfileEntity> {
+        return await this.profileRepository.findProfileById(id);
+    }
 
-   async remove(id: number) {
-    return `This action removes a #${id} profile`;
-  }
+    async update(updateProfileDto: UpdateProfileDto): Promise<IProfileEntity> {
+        if (!updateProfileDto.consumerId && !updateProfileDto.restaurantId) {
+            throw new Exception(
+                Exceptions.InvalidData,
+                'Conexão sem referência'
+            );
+        }
+        return await this.profileRepository.updateProfile(updateProfileDto);
+    }
+
+    async remove(id: string): Promise<string> {
+        await this.profileRepository.deleteProfile(id);
+        return 'Perfil devidamente excluído';
+    }
 }
