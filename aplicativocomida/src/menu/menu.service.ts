@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
+import { ProfileService } from 'src/profile/profile.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
+import { Menu } from './entities/menu.entity';
+import { MenuRepository } from './menu.repository';
 
 @Injectable()
 export class MenuService {
-  create(createMenuDto: CreateMenuDto) {
-    return 'This action adds a new menu';
-  }
+    constructor(
+        private readonly profileService: ProfileService,
+        private readonly menuRepository: MenuRepository
+    ) {}
 
-  findAll() {
-    return `This action returns all menu`;
-  }
+    async create(createMenuDto: CreateMenuDto): Promise<Menu> {
+        await this.profileService.findOne(createMenuDto.profileId);
+        const createdMenu: Menu = {
+            ...createMenuDto,
+            id: randomUUID(),
+        };
+        return await this.menuRepository.createMenu(createdMenu);
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} menu`;
-  }
+    async findAll(): Promise<Menu[]> {
+        return await this.menuRepository.findAllMenu();
+    }
 
-  update(id: number, updateMenuDto: UpdateMenuDto) {
-    return `This action updates a #${id} menu`;
-  }
+    async findOne(id: string): Promise<Menu> {
+        return await this.menuRepository.findMenuById(id);
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} menu`;
-  }
+    async update(updateMenuDto: UpdateMenuDto): Promise<Menu> {
+        return await this.menuRepository.updateMenu(updateMenuDto);
+    }
 }

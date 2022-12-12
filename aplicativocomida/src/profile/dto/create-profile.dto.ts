@@ -15,7 +15,7 @@ export class CreateProfileDto {
     @IsString()
     adress: string;
     @ApiProperty()
-    restaurantId?: String[];
+    restaurantId?: string[];
     @ApiProperty()
-    consumerId?: String[];
+    consumerId?: string[];
 }

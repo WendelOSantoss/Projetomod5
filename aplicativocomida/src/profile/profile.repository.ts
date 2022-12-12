@@ -4,13 +4,13 @@ import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { IProfileEntity } from './entities/profile.entity';
+import { Profile } from './entities/profile.entity';
 
 @Injectable()
 export class ProfileRepository {
     private info = {
         restaurant: true,
-        consumer: true,
+        consumers: true,
     };
 
     constructor(private readonly prisma: PrismaService) {}
@@ -18,10 +18,11 @@ export class ProfileRepository {
     async createProfile(
         { name, image, type, adress }: CreateProfileDto,
         id: string
-    ): Promise<IProfileEntity> {
+    ): Promise<Profile> {
         try {
-            return await this.prisma.IProfileEntity.create({
+            return await this.prisma.profile.create({
                 data: {
+                    id: id,
                     name: name,
                     image: image,
                     type: type,
@@ -34,22 +35,20 @@ export class ProfileRepository {
         }
     }
 
-    async updateProfile(
-        updateProfile: UpdateProfileDto
-    ): Promise<IProfileEntity> {
+    async updateProfile(updateProfile: UpdateProfileDto): Promise<Profile> {
         try {
             const restaurantId = updateProfile.restaurantId;
             const consumerId = updateProfile.consumerId;
             delete updateProfile.restaurantId;
             delete updateProfile.consumerId;
 
-            return await this.prisma.IProfileEntity.update({
+            return await this.prisma.profile.update({
                 where: { id: updateProfile.id },
                 data: {
                     restaurant: {
                         connect: restaurantId?.map((id) => ({ id: id })),
                     },
-                    consumer: {
+                    consumers: {
                         connect: consumerId?.map((id) => ({ id: id })),
                     },
                 },
@@ -60,9 +59,9 @@ export class ProfileRepository {
         }
     }
 
-    async deleteProfile(id: string): Promise<IProfileEntity> {
+    async deleteProfile(id: string): Promise<Profile> {
         try {
-            return await this.prisma.IProfileEntity.delete({
+            return await this.prisma.profile.delete({
                 where: { id: id },
                 include: this.info,
             });
@@ -74,9 +73,9 @@ export class ProfileRepository {
         }
     }
 
-    async findProfileById(id: string): Promise<IProfileEntity> {
+    async findProfileById(id: string): Promise<Profile> {
         try {
-            return await this.prisma.IProfileEntity.findOne({
+            return await this.prisma.profile.findUnique({
                 where: { id: id },
                 include: this.info,
             });
@@ -85,9 +84,9 @@ export class ProfileRepository {
         }
     }
 
-    async findAllProfiles(): Promise<IProfileEntity[]> {
+    async findAllProfiles(): Promise<Profile[]> {
         try {
-            return await this.prisma.IProfileEntity.findAll({
+            return await this.prisma.profile.findMany({
                 include: this.info,
             });
         } catch (err) {

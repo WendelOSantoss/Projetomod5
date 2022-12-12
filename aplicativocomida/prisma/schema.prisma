@@ -35,9 +35,9 @@ model Profile {
   name       String
   image      String
   type       String
-  Adress     String
+  adress     String
   restaurant User[] @relation(name: "Profile Restaurant")
-  consumer   User[] @relation(name: "Profile Consumer")
+  consumers  User[] @relation(name: "Profile Consumer")
   menu       Menu[]
 }
 
@@ -47,5 +47,5 @@ model Menu {
   profile       Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
   foodName      String
   accompaniment String[]
-  price         String[]
+  price         Float
 }

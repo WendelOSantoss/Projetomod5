@@ -4,27 +4,27 @@ import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { IProfileEntity } from './entities/profile.entity';
+import { Profile } from './entities/profile.entity';
 import { ProfileRepository } from './profile.repository';
 
 @Injectable()
 export class ProfileService {
     constructor(private readonly profileRepository: ProfileRepository) {}
 
-    async create(createProfileDto: CreateProfileDto): Promise<IProfileEntity> {
+    async create(createProfileDto: CreateProfileDto): Promise<Profile> {
         const id = randomUUID();
         return await this.profileRepository.createProfile(createProfileDto, id);
     }
 
-    async findAll(): Promise<IProfileEntity[]> {
+    async findAll(): Promise<Profile[]> {
         return await this.profileRepository.findAllProfiles();
     }
 
-    async findOne(id: string): Promise<IProfileEntity> {
+    async findOne(id: string): Promise<Profile> {
         return await this.profileRepository.findProfileById(id);
     }
 
-    async update(updateProfileDto: UpdateProfileDto): Promise<IProfileEntity> {
+    async update(updateProfileDto: UpdateProfileDto): Promise<Profile> {
         if (!updateProfileDto.consumerId && !updateProfileDto.restaurantId) {
             throw new Exception(
                 Exceptions.InvalidData,

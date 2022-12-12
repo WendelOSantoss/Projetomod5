@@ -13,7 +13,7 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { HandleException } from 'src/utils/exceptions/exceptionsHelper';
 
-@ApiTags('profile')
+@ApiTags('Profile')
 @Controller('profile')
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}

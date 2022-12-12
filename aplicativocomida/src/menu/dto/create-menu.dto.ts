@@ -1,12 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsNumber, IsString } from 'class-validator';
 
 export class CreateMenuDto {
     @ApiProperty()
+    @IsString()
     profileId: string;
     @ApiProperty()
-    FoodName: string;
+    @IsString()
+    foodName: string;
     @ApiProperty()
-    Accompaniment;
+    @IsArray()
+    accompaniment: string[];
     @ApiProperty()
-    Price: string;
+    @IsNumber()
+    price: number;
 }
