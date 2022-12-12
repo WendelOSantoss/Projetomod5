@@ -5,6 +5,12 @@ import { MenuModule } from './menu/menu.module';
 import { UserModule } from './user/user.module';
 
 @Module({
-    imports: [DatabaseModule, UserModule, ProfileModule, MenuModule],
+    imports: [
+        DatabaseModule,
+        AuthModule,
+        UserModule,
+        ProfileModule,
+        MenuModule,
+    ],
 })
 export class AppModule {}

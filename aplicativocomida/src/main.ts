@@ -8,7 +8,9 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe());
     const config = new DocumentBuilder()
         .setTitle('API app comida')
-        .setDescription('The super API description')
+        .setDescription(
+            'Um aplicativo para filtrar com maior comodidade os restaurantes que tem o seu tipo de comida preferido'
+        )
         .setVersion('1.0')
         .build();
 
