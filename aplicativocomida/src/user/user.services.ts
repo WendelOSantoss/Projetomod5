@@ -38,14 +38,9 @@ export class UserService {
         return await this.userRepository.findAllUsers();
     }
 
-    async deleteUserById(userId: string): Promise<boolean> {
-        try {
-            await this.userRepository.deleteUser(userId);
-            return true;
-        } catch (err) {
-            console.log(err);
-            return false;
-        }
+    async deleteUserById(userId: string): Promise<string> {
+        await this.userRepository.deleteUser(userId);
+        return 'Usuário excluído';
     }
 
     async getUserById(userId: string): Promise<IUserEntity> {
@@ -56,5 +51,27 @@ export class UserService {
 
     async findUserByEmail(email: string): Promise<IUserEntity> {
         return await this.userRepository.findUserByEmail(email);
+    }
+
+    async homeConsumers(id: string) {
+        const foundUser = await this.userRepository.homeConsumers(id);
+        delete foundUser.cpf;
+        delete foundUser.email;
+        delete foundUser.id;
+        delete foundUser.name;
+        delete foundUser.password;
+        delete foundUser.role;
+        return foundUser;
+    }
+
+    async homeRestaurant(id: string) {
+        const foundUser = await this.userRepository.homeRestaurant(id);
+        delete foundUser.cpf;
+        delete foundUser.email;
+        delete foundUser.id;
+        delete foundUser.name;
+        delete foundUser.password;
+        delete foundUser.role;
+        return foundUser;
     }
 }

@@ -77,12 +77,10 @@ export class UserController {
     @ApiBearerAuth()
     @Delete(':id')
     async deleteUserById(@Param('id') userId: string): Promise<string> {
-        const userIsDeleted = await this.service.deleteUserById(userId);
-        console.log(userIsDeleted);
-        if (userIsDeleted) {
-            return 'User deleted successfully.';
-        } else {
-            return 'User not found.';
+        try {
+            return await this.service.deleteUserById(userId);
+        } catch (err) {
+            HandleException(err);
         }
     }
 }

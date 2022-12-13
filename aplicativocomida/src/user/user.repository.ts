@@ -82,4 +82,34 @@ export class UserRepository {
             );
         }
     }
+
+    async homeConsumers(id: string): Promise<IUserEntity> {
+        return await this.prisma.user.findFirst({
+            where: { id: id },
+            include: {
+                ProfileConsumers: {
+                    select: {
+                        services: true,
+                    },
+                },
+            },
+        });
+    }
+
+    async homeRestaurant(id: string): Promise<IUserEntity> {
+        return await this.prisma.user.findFirst({
+            where: { id: id },
+            include: {
+                ProfileRestaurant: {
+                    select: {
+                        consumers: {
+                            select: {
+                                name: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+    }
 }

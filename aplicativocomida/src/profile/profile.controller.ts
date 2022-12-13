@@ -21,7 +21,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
 
-    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @UseGuards(AuthGuard())
     @ApiBearerAuth()
     @Post()
     async create(@Body() createProfileDto: CreateProfileDto) {
