@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { IUserEntity } from './entities/user.entity';
-import { PartialUserDto } from './dto/partialuserinput.dto';
+import { PartialUserDto } from './dto/partialUserInput.dto';
 import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
 
