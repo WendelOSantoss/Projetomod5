@@ -4,7 +4,7 @@ import { ProfileModule } from './profile/profile.module';
 import { MenuModule } from './menu/menu.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-
+import { HomepageModule } from './home/home.module';
 
 @Module({
     imports: [
@@ -13,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
         UserModule,
         ProfileModule,
         MenuModule,
+        HomepageModule,
     ],
 })
 export class AppModule {}

@@ -87,9 +87,9 @@ export class UserRepository {
         return await this.prisma.user.findFirst({
             where: { id: id },
             include: {
-                ProfileConsumers: {
+                ProfileConsumer: {
                     select: {
-                        services: true,
+                        menu: true,
                     },
                 },
             },

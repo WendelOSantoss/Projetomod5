@@ -13,4 +13,3 @@ export class HomepageService {
         return await this.userService.homeRestaurant(id);
     }
 }
-    
