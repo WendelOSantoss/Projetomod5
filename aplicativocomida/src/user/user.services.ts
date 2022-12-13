@@ -1,5 +1,5 @@
 import { IUserEntity } from "./entities/user.entity";
-import { UserDto } from "./dto/userinput.dto";
+import { UserDto } from "./dto/userInput.dto";
 import { randomUUID } from "node:crypto";
 import { PartialUserDto } from "./dto/partialUserInput.dto";
 import { UserRepository } from "./user.repository";
