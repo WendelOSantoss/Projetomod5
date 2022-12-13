@@ -8,6 +8,7 @@ import {
     Patch,
     Post,
     Res,
+    UseGuards,
 } from '@nestjs/common';
 import { IUserEntity } from './entities/user.entity';
 import { PartialUserDto } from './dto/partialuserinput.dto';
@@ -15,18 +16,24 @@ import { UserDto } from './dto/userinput.dto';
 import { UserService } from './user.services';
 import { Response } from 'express';
 import { HandleException } from 'src/utils/exceptions/exceptionsHelper';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { IsRestaurantAuthorization } from 'src/auth/decorators/is-restaurant.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('User')
 @Controller('user')
 export class UserController {
     constructor(private readonly service: UserService) {}
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Get()
     async getAllUser(): Promise<IUserEntity[]> {
         return await this.service.getAllUsers();
     }
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Get(':id')
     async getUserById(@Param('id') userId: string): Promise<IUserEntity> {
         try {
@@ -36,6 +43,8 @@ export class UserController {
         }
     }
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Post()
     async createUser(
         @Body() { cpf, email, password, name, role }: UserDto,
@@ -56,6 +65,8 @@ export class UserController {
         }
     }
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Patch()
     async updateUser(@Body() userData: PartialUserDto): Promise<IUserEntity> {
         try {
@@ -64,7 +75,8 @@ export class UserController {
             HandleException(err);
         }
     }
-
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Delete(':id')
     async deleteUserById(@Param('id') userId: string): Promise<string> {
         const userIsDeleted = await this.service.deleteUserById(userId);

@@ -1,15 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    UseGuards,
+} from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { HandleException } from 'src/utils/exceptions/exceptionsHelper';
+import { AuthGuard } from '@nestjs/passport';
+import { IsRestaurantAuthorization } from 'src/auth/decorators/is-restaurant.decorator';
 
 @ApiTags('Menu')
 @Controller('menu')
 export class MenuController {
     constructor(private readonly menuService: MenuService) {}
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Post('/create')
     async create(@Body() createMenuDto: CreateMenuDto) {
         try {
@@ -19,6 +31,8 @@ export class MenuController {
         }
     }
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Get()
     findAll() {
         try {
@@ -28,6 +42,8 @@ export class MenuController {
         }
     }
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Get('/find/:id')
     async findOne(@Param('id') id: string) {
         try {
@@ -37,6 +53,8 @@ export class MenuController {
         }
     }
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Patch('/update/:id')
     async update(@Body() updateMenuDto: UpdateMenuDto) {
         try {

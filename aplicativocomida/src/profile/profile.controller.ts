@@ -6,18 +6,23 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { HandleException } from 'src/utils/exceptions/exceptionsHelper';
+import { IsRestaurantAuthorization } from 'src/auth/decorators/is-restaurant.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Profile')
 @Controller('profile')
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Post()
     async create(@Body() createProfileDto: CreateProfileDto) {
         try {
@@ -27,6 +32,8 @@ export class ProfileController {
         }
     }
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Get()
     findAll() {
         try {
@@ -36,6 +43,8 @@ export class ProfileController {
         }
     }
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Get('/find/:id')
     async findOne(@Param('id') id: string) {
         try {
@@ -45,6 +54,8 @@ export class ProfileController {
         }
     }
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Patch('/update')
     async update(@Body() updateProfileDto: UpdateProfileDto) {
         try {
@@ -54,6 +65,8 @@ export class ProfileController {
         }
     }
 
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
     @Delete('delete/:id')
     async remove(@Param('id') id: string): Promise<String> {
         try {
