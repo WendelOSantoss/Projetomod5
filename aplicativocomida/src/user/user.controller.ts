@@ -43,8 +43,6 @@ export class UserController {
         }
     }
 
-    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
-    @ApiBearerAuth()
     @Post()
     async createUser(
         @Body() { cpf, email, password, name, role }: UserDto,
@@ -65,7 +63,7 @@ export class UserController {
         }
     }
 
-    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @UseGuards(AuthGuard())
     @ApiBearerAuth()
     @Patch()
     async updateUser(@Body() userData: PartialUserDto): Promise<IUserEntity> {
@@ -75,7 +73,7 @@ export class UserController {
             HandleException(err);
         }
     }
-    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @UseGuards(AuthGuard())
     @ApiBearerAuth()
     @Delete(':id')
     async deleteUserById(@Param('id') userId: string): Promise<string> {

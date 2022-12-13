@@ -54,7 +54,7 @@ export class ProfileController {
         }
     }
 
-    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @UseGuards(AuthGuard())
     @ApiBearerAuth()
     @Patch('/update')
     async update(@Body() updateProfileDto: UpdateProfileDto) {
@@ -65,7 +65,7 @@ export class ProfileController {
         }
     }
 
-    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @UseGuards(AuthGuard())
     @ApiBearerAuth()
     @Delete('delete/:id')
     async remove(@Param('id') id: string): Promise<String> {
