@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
+import { UpdateMenuDto } from './dto/update-menu.dto';
 import { Menu } from './entities/menu.entity';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class MenuRepository {
         }
     }
 
-    async updateMenu(menu: Menu): Promise<Menu> {
+    async updateMenu(menu: UpdateMenuDto): Promise<Menu> {
         try {
             return await this.prisma.menu.update({
                 where: { id: menu.id },
