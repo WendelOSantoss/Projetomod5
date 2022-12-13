@@ -60,6 +60,7 @@ export class UserService {
         delete foundUser.id;
         delete foundUser.name;
         delete foundUser.password;
+        
         delete foundUser.role;
         return foundUser;
     }
