@@ -65,7 +65,7 @@ export class ProfileController {
         }
     }
 
-    @UseGuards(AuthGuard())
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
     @ApiBearerAuth()
     @Delete('delete/:id')
     async remove(@Param('id') id: string): Promise<String> {

@@ -31,7 +31,7 @@ export class MenuController {
         }
     }
 
-    @UseGuards(AuthGuard())
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
     @ApiBearerAuth()
     @Get()
     findAll() {
@@ -42,7 +42,7 @@ export class MenuController {
         }
     }
 
-    @UseGuards(AuthGuard())
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
     @ApiBearerAuth()
     @Get('/find/:id')
     async findOne(@Param('id') id: string) {
