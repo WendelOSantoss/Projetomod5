@@ -12,6 +12,7 @@ async function bootstrap() {
             'Um aplicativo para filtrar com maior comodidade os restaurantes que tem o seu tipo de comida preferido'
         )
         .setVersion('1.0')
+        .addBearerAuth()
         .build();
 
     const document = SwaggerModule.createDocument(app, config);
