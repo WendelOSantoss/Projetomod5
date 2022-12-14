@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IsRestaurantAuthorization } from 'src/auth/decorators/is-restaurant.decorator';
@@ -12,10 +12,10 @@ export class HomepageController {
 
     @UseGuards(AuthGuard())
     @ApiBearerAuth()
-    @Get('/consumer')
-    async homeConsumers(@Query('id') id: string, @Res() res: Response) {
+    @Get('/consumer/:id')
+    async homeConsumers(@Param('id') id: string) {
         try {
-            await this.homepageService.homeConsumers(id);
+            return await this.homepageService.homeConsumers(id);
         } catch (err) {
             HandleException(err);
         }
@@ -23,10 +23,10 @@ export class HomepageController {
 
     @UseGuards(AuthGuard(), IsRestaurantAuthorization)
     @ApiBearerAuth()
-    @Get('/restaurant')
-    async homeRestaurant(@Query('id') id: string, @Res() res: Response) {
+    @Get('/restaurant/:id')
+    async homeRestaurant(@Param('id') id: string) {
         try {
-            await this.homepageService.homeRestaurant(id);
+            return await this.homepageService.homeRestaurant(id);
         } catch (err) {
             HandleException(err);
         }

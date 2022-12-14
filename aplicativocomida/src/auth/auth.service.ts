@@ -15,7 +15,7 @@ export class AuthService {
     ) {}
 
     async validateUserEmail({ email, password }: CreateAuthEmailDto) {
-        const user = await this.userService.getUserById(email);
+        const user = await this.userService.findUserByEmail(email);
         const passwordIsValid = await compare(password, user.password);
         if (!passwordIsValid) {
             throw new Exception(

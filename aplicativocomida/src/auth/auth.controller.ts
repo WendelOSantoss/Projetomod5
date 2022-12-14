@@ -16,7 +16,7 @@ export class AuthController {
     @Post('login/email')
     async loginEmail(@Body() data: CreateAuthEmailDto) {
         try {
-            return this.authService.validateUserEmail(data);
+            return await this.authService.validateUserEmail(data);
         } catch (err) {
             HandleException(err);
         }

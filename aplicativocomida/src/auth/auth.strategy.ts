@@ -13,7 +13,8 @@ export class AuthStrategy extends PassportStrategy(Strategy) {
         });
     }
 
-    async validate(payload: any) {
-        return await this.authService.getUserEmail(payload.email);
+    async validate(payload: { email: string }) {
+        const user = await this.authService.getUserEmail(payload.email);
+        return user;
     }
 }
