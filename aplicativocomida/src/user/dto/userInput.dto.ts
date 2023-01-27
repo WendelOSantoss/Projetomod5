@@ -18,7 +18,4 @@ export class UserDto {
     @IsString()
     cpf: string;
 
-    @ApiProperty()
-    @IsString()
-    role: string;
 }
