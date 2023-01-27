@@ -45,7 +45,7 @@ export class UserController {
 
     @Post()
     async createUser(
-        @Body() { cpf, email, password, name, role }: UserDto,
+        @Body() { cpf, email, password, name }: UserDto,
 
         @Res() response: Response
     ) {
@@ -55,7 +55,6 @@ export class UserController {
                 email,
                 password,
                 name,
-                role,
             });
             response.status(201).send(result);
         } catch (err) {
