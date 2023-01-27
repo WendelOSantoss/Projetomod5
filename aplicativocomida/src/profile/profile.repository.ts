@@ -45,6 +45,7 @@ export class ProfileRepository {
             return await this.prisma.profile.update({
                 where: { id: updateProfile.id },
                 data: {
+                    ...updateProfile,
                     restaurant: {
                         connect: restaurantId?.map((id) => ({ id: id })),
                     },
