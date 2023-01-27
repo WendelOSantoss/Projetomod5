@@ -6,5 +6,5 @@ export class PartialUserDto extends PartialType(UserDto) {
     @ApiProperty()
     id: string;
     @ApiProperty()
-    role: string;
+    role?: string;
 }
