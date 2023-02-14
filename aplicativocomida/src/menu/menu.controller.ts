@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     UseGuards,
+    Delete,
 } from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
@@ -59,6 +60,17 @@ export class MenuController {
     async update(@Body() updateMenuDto: UpdateMenuDto) {
         try {
             return this.menuService.update(updateMenuDto);
+        } catch (err) {
+            HandleException(err);
+        }
+    }
+
+    @UseGuards(AuthGuard(), IsRestaurantAuthorization)
+    @ApiBearerAuth()
+    @Delete('delete/:id')
+    async remove(@Param('id') id: string): Promise<String> {
+        try {
+            return await this.menuService.remove(id);
         } catch (err) {
             HandleException(err);
         }

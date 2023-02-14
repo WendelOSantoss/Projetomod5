@@ -33,4 +33,9 @@ export class MenuService {
     async update(updateMenuDto: UpdateMenuDto): Promise<Menu> {
         return await this.menuRepository.updateMenu(updateMenuDto);
     }
+
+    async remove(id: string): Promise<string> {
+        await this.menuRepository.deleteMenu(id);
+        return 'Perfil devidamente excluído';
+    }
 }

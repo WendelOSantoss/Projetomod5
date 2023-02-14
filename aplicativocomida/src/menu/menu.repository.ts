@@ -47,4 +47,17 @@ export class MenuRepository {
             throw new Exception(Exceptions.DatabaseException);
         }
     }
+
+    async deleteMenu(id: string): Promise<Menu> {
+        try {
+            return await this.prisma.menu.delete({
+                where: { id: id },
+            });
+        } catch (err) {
+            throw new Exception(
+                Exceptions.DatabaseException,
+                'MenuID não foi encontrado, tente novamente'
+            );
+        }
+    }
 }
