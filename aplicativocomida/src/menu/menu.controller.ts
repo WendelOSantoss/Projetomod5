@@ -56,7 +56,7 @@ export class MenuController {
 
     @UseGuards(AuthGuard(), IsRestaurantAuthorization)
     @ApiBearerAuth()
-    @Patch('/update/:id')
+    @Patch('/update/')
     async update(@Body() updateMenuDto: UpdateMenuDto) {
         try {
             return this.menuService.update(updateMenuDto);
